@@ -5,28 +5,28 @@ import { Row, Grid } from "react-native-easy-grid";
 
 export class QuestionDetailPage extends Component {
 
-  render() {
-    const firebaseDb = InitializeFireBaseDb();
-    console.log('firebaseDb ==>', firebaseDb);
-    return (
-      <Container>
-        <Grid>
-          <Row>
-            <Content>
-                <H3>{this.props.route.params.title}</H3>
-              <Card>
-                <CardItem>
-                  <Body>
-                    <Text>Soru İçeriği</Text>
-                  </Body>
-                </CardItem>
-              </Card>
-            </Content>
-          </Row>
-        </Grid>
-      </Container>
-    );
-  }
+    render() {
+        const firebaseDb = InitializeFireBaseDb();
+        console.log('firebaseDb ==>', firebaseDb);
+        return (
+            <Container>
+                <Grid>
+                    <Row>
+                        <Content>
+                            <H3>{this.props.route.params.title}</H3>
+                            <Card>
+                                <CardItem>
+                                    <Body>
+                                        <Text>Soru İçeriği</Text>
+                                    </Body>
+                                </CardItem>
+                            </Card>
+                        </Content>
+                    </Row>
+                </Grid>
+            </Container>
+        );
+    }
 }
 
 // const styles = StyleSheet.create({
