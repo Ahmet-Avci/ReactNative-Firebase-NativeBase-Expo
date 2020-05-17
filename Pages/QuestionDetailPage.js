@@ -7,7 +7,7 @@ export class QuestionDetailPage extends Component {
 
     render() {
         const firebaseDb = InitializeFireBaseDb();
-        console.log('firebaseDb ==>', firebaseDb);
+        firebaseDb.database().ref("/").on('value', (snapshot => { console.log(snapshot.val()) }));
         return (
             <Container>
                 <Grid>
