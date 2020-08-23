@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, List, ListItem, Text, Content, Left, Right, Icon } from "native-base";
+import { Container, List, ListItem, Text, Content, Left, Right, Icon, Spinner } from "native-base";
 import { Row, Grid } from "react-native-easy-grid";
 import 'react-native-gesture-handler';
 import { InitializeFireBaseDb } from '../Firebase/Firebase';
@@ -44,7 +44,7 @@ export class QuestionListPage extends Component {
                                         ) :
                                         <ListItem>
                                             <Left>
-                                                <Text>...</Text>
+                                                <Spinner />
                                             </Left>
                                         </ListItem>
                                 }
@@ -65,7 +65,7 @@ export class QuestionListPage extends Component {
                                         ) :
                                         <ListItem>
                                             <Left>
-                                                <Text>...</Text>
+                                                <Spinner color='blue' />
                                             </Left>
                                         </ListItem>
                                 }
@@ -86,7 +86,7 @@ export class QuestionListPage extends Component {
                                         ) :
                                         <ListItem>
                                             <Left>
-                                                <Text>...</Text>
+                                                <Spinner color='red' />
                                             </Left>
                                         </ListItem>
                                 }
@@ -107,7 +107,7 @@ export class QuestionListPage extends Component {
                                         ) :
                                         <ListItem>
                                             <Left>
-                                                <Text>...</Text>
+                                                <Spinner color='green' />
                                             </Left>
                                         </ListItem>
                                 }

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet } from 'react-native';
-import { Container, Content, Card, CardItem, Text, Body, H3, Button } from "native-base";
-import { Row, Grid } from "react-native-easy-grid";
+import { Container, Header, Tab, Tabs, Content, Card, CardItem, Body, Text, Button } from "native-base";
 
 export class QuestionDetailPage extends Component {
     state = {
@@ -9,45 +7,61 @@ export class QuestionDetailPage extends Component {
         totalFalse: 0
     }
 
-    // TODO : TEST KATEGORİSİ ALTINDAKİ BİR TESTİN HEMEN ALTINDA TEK BİR SORU VE CEVAPLARI VAR. O KISMIN ARRAY ŞEKLİNDE GELMESİ GEREKİYOR.
-
     chooseAnswer(isCorrect) {
         console.log(isCorrect);
+    }
+
+    TextArea(text) {
+        return (
+            <Container>
+                <Header />
+                <Content>
+                    <Card>
+                        <CardItem>
+                            <Body>
+                                <Text>{text}</Text>
+                            </Body>
+                        </CardItem>
+                    </Card>
+                </Content>
+            </Container>
+        );
+    }
+
+    AnswerArea(answers) {
+        Object.values(answers).map((value2, key2) => {
+            return (
+                <Button full light>
+                    <Text>{Object.keys(answers)[key2]}- {Object.keys(value2)}</Text>
+                </Button>
+            )
+        })
+    }
+
+    TabArea(propData) {
+        Object.values(propData).map((value, key) => {
+            return (
+                <Tab heading={`Soru ${key + 1}`}>
+                    {this.TextArea(value.QuestionText)}
+                    {this.AnswerArea(value.Answers)}
+                </Tab>
+            )
+        })
     }
 
     render() {
         return (
             <Container>
-                <Grid>
-                    <Row>
-                        <Content>
-                            <H3>{this.props.route.params.header}</H3>
-                            <Card>
-                                <CardItem>
-                                    <Body>
-                                        <Text>{this.props.route.params.data.Question}</Text>
-                                    </Body>
-                                </CardItem>
-                            </Card>
-                            {
-                                Object.keys(this.props.route.params.data.Answers).map((key, index) =>
-                                    <Button key={key} small full light style={styles.margin} onPress={() => this.chooseAnswer(Object.values(this.props.route.params.data.Answers)[index][1])}>
-                                        <Text>{key} - {Object.values(this.props.route.params.data.Answers)[index]}</Text>
-                                    </Button>
-                                )
-                            }
-                        </Content>
-                    </Row>
-                </Grid>
+                <Header hasTabs />
+                <Tabs>
+                    {
+                        this.TabArea(this.props.route.params.data)
+                    }
+                </Tabs>
+                {/* <ProgressBar progress={10} /> */}
             </Container>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    margin: {
-        marginBottom: 5
-    }
-});
 
 export default QuestionDetailPage;
