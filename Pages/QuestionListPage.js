@@ -27,13 +27,13 @@ export class QuestionListPage extends Component {
                     <Row>
                         <Content>
                             <List>
-                                <ListItem itemDivider>
+                                <ListItem key="first" itemDivider>
                                     <Text>Giriş Seviye Testler</Text>
                                 </ListItem>
                                 {
                                     this.state.allQuestions ?
                                         Object.keys(this.state.allQuestions.Basic).map((x, i) =>
-                                            <ListItem onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Basic)[i], header: x })}>
+                                            <ListItem key={`first-${x}`} onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Basic)[i], header: x })}>
                                                 <Left>
                                                     <Text>{x}</Text>
                                                 </Left>
@@ -48,13 +48,13 @@ export class QuestionListPage extends Component {
                                             </Left>
                                         </ListItem>
                                 }
-                                <ListItem itemDivider>
+                                <ListItem key="second" itemDivider>
                                     <Text>Orta Seviye Testler</Text>
                                 </ListItem>
                                 {
                                     this.state.allQuestions ?
                                         Object.keys(this.state.allQuestions.Middle).map((x, i) =>
-                                            <ListItem onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Basic)[i], header: x })}>
+                                            <ListItem key={`second-${x}`} onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Basic)[i], header: x })}>
                                                 <Left>
                                                     <Text>{x}</Text>
                                                 </Left>
@@ -69,13 +69,13 @@ export class QuestionListPage extends Component {
                                             </Left>
                                         </ListItem>
                                 }
-                                <ListItem itemDivider>
+                                <ListItem key="third" itemDivider>
                                     <Text>Zor Seviye Testler</Text>
                                 </ListItem>
                                 {
                                     this.state.allQuestions ?
                                         Object.keys(this.state.allQuestions.Hard).map((x, i) =>
-                                            <ListItem onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Basic)[i], header: x })}>
+                                            <ListItem key={`third-${x}`} onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Basic)[i], header: x })}>
                                                 <Left>
                                                     <Text>{x}</Text>
                                                 </Left>
@@ -90,13 +90,13 @@ export class QuestionListPage extends Component {
                                             </Left>
                                         </ListItem>
                                 }
-                                <ListItem itemDivider>
+                                <ListItem key="quad" itemDivider>
                                     <Text>Derslere Özel Testler(30 SORU)</Text>
                                 </ListItem>
                                 {
                                     this.state.allQuestions ?
                                         Object.keys(this.state.allQuestions.Other).map((x, i) =>
-                                            <ListItem onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Basic)[i], header: x })}>
+                                            <ListItem key={`quad-${x}`} onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Basic)[i], header: x })}>
                                                 <Left>
                                                     <Text>{x}</Text>
                                                 </Left>
