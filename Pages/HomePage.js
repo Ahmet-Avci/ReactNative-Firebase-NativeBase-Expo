@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import { Container, Content, Card, CardItem, Text, Body } from "native-base";
 import { StyleSheet } from 'react-native';
 import { Row, Grid } from "react-native-easy-grid";
+import ToastMessage from '../mixins/ToastMessage';
 
 export class HomePage extends Component {
+    componentDidMount() {
+        ToastMessage.clearToastSquare();
+    }
+
     render() {
         return (
             <Container>

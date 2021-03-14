@@ -43,14 +43,15 @@ export default function App(props) {
         return null;
     } else {
         return (
-            <Root initialState={initialNavigationState}>
-                <NavigationContainer ref={containerRef}>
+
+            <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
+                <Root>
                     <Stack.Navigator>
                         <Stack.Screen name="Root" component={BottomTabNavigator} />
                         <Stack.Screen name="Detail" component={QuestionDetailPage} />
                     </Stack.Navigator>
-                </NavigationContainer>
-            </Root>
+                </Root>
+            </NavigationContainer>
         );
     }
 }

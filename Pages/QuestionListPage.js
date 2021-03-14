@@ -3,6 +3,7 @@ import { Container, List, ListItem, Text, Content, Left, Right, Icon, Spinner } 
 import { Row, Grid } from "react-native-easy-grid";
 import 'react-native-gesture-handler';
 import { InitializeFireBaseDb } from '../Firebase/Firebase';
+import ToastMessage from '../mixins/ToastMessage';
 
 export class QuestionListPage extends Component {
     state = {
@@ -11,6 +12,7 @@ export class QuestionListPage extends Component {
 
     componentDidMount() {
         if (!this.state.allQuestions) {
+            ToastMessage.clearToastSquare();
             const firebaseDb = InitializeFireBaseDb();
             firebaseDb.database().ref("KpssTests").on('value', (snapshot => {
                 if (snapshot.val()) {
