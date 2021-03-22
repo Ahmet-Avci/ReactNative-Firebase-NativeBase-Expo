@@ -1,17 +1,30 @@
 {
   "expo": {
-    "name": "First React Native App",
-    "slug": "BaseQuestionsApp",
+    "name": "Kpss Çıkmış Sorular Soru Bankası",
+    "description": "Kpss çıkmış soruları ve cevaplar ve sorun bankası içerikleriyle, kendini deneme testlerinizi yapabileceğiniz bir sınava çalışma uygulaması.",
+    "icon": "./assets/kpss.png",
+    "slug": "kpsss-cikmis-sorular-soru-bankasi",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
+    "sdkVersion": "40.0.0",
+    "scheme": "kpsssorucevap",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
+    "android": {
+        "package": "kpss.cikmis.sorular.soru.bankasi",
+        "config": {
+          "googleMobileAdsAppId": "ca-app-pub-5292572003338215~9332594143"
+        }
+    },
+    "ios": {
+    "supportsTablet": true,
+      "bundleIdentifier": "kpss.cikmis.sorular.soru.bankasi",
+      "buildNumber": "1.0.0"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -22,9 +35,6 @@
     },
     "assetBundlePatterns": [
       "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    }
+    ]
   }
 }

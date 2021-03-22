@@ -3,6 +3,7 @@ import { Container, Content, Card, CardItem, Text, Body } from "native-base";
 import { StyleSheet } from 'react-native';
 import { Row, Grid } from "react-native-easy-grid";
 import ToastMessage from '../mixins/ToastMessage';
+import { AdMobBanner } from 'expo-ads-admob';
 
 export class HomePage extends Component {
     componentDidMount() {
@@ -12,13 +13,18 @@ export class HomePage extends Component {
     render() {
         return (
             <Container>
+                <AdMobBanner
+                    bannerSize="fullBanner"
+                    adUnitID="ca-app-pub-5292572003338215/9564883651"
+                    servePersonalizedAds
+                    onDidFailToReceiveAdWithError={this.bannerError} />
                 <Grid>
                     <Row>
                         <Content>
                             <Card>
                                 <CardItem bordered>
                                     <Body>
-                                        <Text style={styles.lineHeight}>
+                                        <Text style={styles.line}>
                                             Zaman zaman kendimize sorular sorarken bulduk kendimizi,
                                             kimi zaman ya olmazsa dedik, ya kazanamazsam... Ama her
                                             defasında toparlanmak için bir sebebimiz vardı. En geçerli
@@ -31,7 +37,7 @@ export class HomePage extends Component {
                       {"\n"}
                                             {"\n"}
                                         </Text>
-                                        <Text style={styles.lineHeight}>
+                                        <Text style={styles.line}>
                                             1- Test Çözme Becerinizi Arttırın: Bir konuyla ilgili
                                             soruları çözmeden önce o konuyu iyi öğrenmelisiniz. Soru
                                             çözerek de öğrenip öğrenmediğinizi kontrol etmiş
@@ -49,7 +55,7 @@ export class HomePage extends Component {
                       {"\n"}
                                             {"\n"}
                                         </Text>
-                                        <Text style={styles.lineHeight}>
+                                        <Text style={styles.line}>
                                             2- Soru Çözün Hergün en az iki test çözün.(60 soru) Bu
                                             çalışmanın amacı da bilgileri taze tutmak ve tekrar
                                             yapabilmektir. Cevaplarınızı kitabın üstüne işaretleyin.
@@ -78,7 +84,7 @@ export class HomePage extends Component {
                       {"\n"}
                                             {"\n"}
                                         </Text>
-                                        <Text style={styles.lineHeight}>
+                                        <Text style={styles.line}>
                                             3- Ders Atlamayın! Matematiksiz de yaparım!, Coğrafyadan
                                             anlamıyorum. Anayasa çok karışık söylemlerinden vazgeçin.
                                             KPSS’den yüksek puan almak istiyorsanız, hepsine
@@ -86,7 +92,7 @@ export class HomePage extends Component {
                       {"\n"}
                                             {"\n"}
                                         </Text>
-                                        <Text style={styles.lineHeight}>
+                                        <Text style={styles.line}>
                                             4- Konuları Anlayarak Çalışın! KPSS’den yüksek not almanın
                                             temel yolu, bilgiyi akılda tutmaktır. Bilgiyi akılda
                                             tutmanın en temel yolu ise onu tekrarlamaktır.
@@ -112,7 +118,7 @@ export class HomePage extends Component {
 }
 
 const styles = StyleSheet.create({
-    lineHeight: {
+    line: {
         lineHeight: 22
     }
 });

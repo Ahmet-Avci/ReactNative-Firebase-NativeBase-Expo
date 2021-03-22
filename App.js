@@ -1,13 +1,12 @@
 import * as React from "react";
 import { Root } from "native-base";
-import { SplashScreen } from 'expo';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { QuestionDetailPage } from './Pages/QuestionDetailPage'
 import BottomTabNavigator from './Navigation/Navigation';
-import useLinking from './Navigation/useLinking';
+import useLinking from './Navigation/UseLinking';
 
 const Stack = createStackNavigator();
 
@@ -20,19 +19,18 @@ export default function App(props) {
     React.useEffect(() => {
         async function loadResourcesAndDataAsync() {
             try {
-                SplashScreen.preventAutoHide();
-
                 setInitialNavigationState(await getInitialState());
 
                 await Font.loadAsync({
-                    ...Ionicons.font,
                     'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+                    'Roboto': require('native-base/Fonts/Roboto.ttf'),
+                    'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+                    ...Ionicons.font,
                 });
             } catch (e) {
                 console.warn(e);
             } finally {
                 setLoadingComplete(true);
-                SplashScreen.hide();
             }
         }
 

@@ -12,10 +12,15 @@ const ToastMessage = ({
         })
     },
     clearToastSquare() {
-        // TODO : to be corrected later or not to be. that's the whole point
+        //TODO : to be corrected later or not to be. that's the whole point
         setTimeout(() => {
-            window.document.querySelectorAll("div[style='align-self: flex-start; border-color: rgb(255, 0, 0); border-width: 1px;']")[0].style.opacity = 0;
-        }, 100);
+            if (window && window.document && window.document.querySelectorAll) {
+                const query = "div[style='align-self: flex-start; border-color: rgb(255, 0, 0); border-width: 1px;']";
+                const elm = window.document.querySelectorAll(query)[0];
+                if (elm && elm.style)
+                    window.document.querySelectorAll(query)[0].style.opacity = 0;
+            }
+        }, 1000);
     }
 });
 
