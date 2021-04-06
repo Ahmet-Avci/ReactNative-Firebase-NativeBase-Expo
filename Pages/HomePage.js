@@ -1,40 +1,80 @@
 import React, { Component } from "react";
-import { Container, Content, Card, CardItem, Text, Body } from "native-base";
+import { Container, Content, Card, CardItem, Text, Body, List, ListItem, Left, Right, Badge } from "native-base";
 import { StyleSheet } from 'react-native';
 import { Row, Grid } from "react-native-easy-grid";
 import ToastMessage from '../mixins/ToastMessage';
 import { AdMobBanner } from 'expo-ads-admob';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export class HomePage extends Component {
-    componentDidMount() {
+    state = {
+        trueCount: 0,
+        falseCount: 0
+    }
+
+    async componentDidMount() {
         ToastMessage.clearToastSquare();
+        await this.getAnswerCount();
+        await this.AnswerCountInterval();
+    }
+
+    async getAnswerCount() {
+        let storagedTrue = await AsyncStorage.getItem("trueTotal");
+        let storagedFalse = await AsyncStorage.getItem("falseTotal");
+
+        if (storagedTrue || storagedFalse) {
+            this.setState({ trueCount: parseInt(storagedTrue) || 0 });
+            this.setState({ falseCount: parseInt(storagedFalse) || 0 });
+        }
+    }
+
+    async AnswerCountInterval() {
+        setTimeout(() => {
+            setInterval(() => {
+                this.getAnswerCount();
+            }, 10000)
+        }, 25000);
     }
 
     render() {
         return (
             <Container>
                 <AdMobBanner
-                    bannerSize="fullBanner"
+                    bannerSize="ADAPTIVE_BANNER"
                     adUnitID="ca-app-pub-5292572003338215/9564883651"
                     servePersonalizedAds
                     onDidFailToReceiveAdWithError={this.bannerError} />
                 <Grid>
                     <Row>
                         <Content>
+                            <List>
+                                <ListItem>
+                                    <Left iconRight light>
+                                        <Text>Toplam Doğru Cevap Sayınız:</Text>
+                                    </Left>
+                                    <Right>
+                                        <Badge success>
+                                            <Text>{this.state.trueCount}</Text>
+                                        </Badge>
+                                    </Right>
+                                </ListItem>
+                                <ListItem>
+                                    <Left iconRight light>
+                                        <Text>Toplam Yanlış Cevap Sayınız:</Text>
+                                    </Left>
+                                    <Right>
+                                        <Badge danger>
+                                            <Text>{this.state.falseCount}</Text>
+                                        </Badge>
+                                    </Right>
+                                </ListItem>
+                            </List>
                             <Card>
                                 <CardItem bordered>
                                     <Body>
                                         <Text style={styles.line}>
-                                            Zaman zaman kendimize sorular sorarken bulduk kendimizi,
-                                            kimi zaman ya olmazsa dedik, ya kazanamazsam... Ama her
-                                            defasında toparlanmak için bir sebebimiz vardı. En geçerli
-                                            sebep… Hayallerimiz! Şimdi bu hayalleri gerçekleştirmeye
-                                            çok yakınız. Her şey bizim elimizde. Biz istersek yaparız,
-                                            istemezsek tüm bu hayaller kuş olup uçar ve bize de sadece
-                                            izlemek kalır.. Peki bunca zamandan sonra yeniden
-                                            toparlanmanın, yüksek puan almanın bir yolu yok mu? Gelin
-                                            adım adım neler yapacağımızı birlikte öğrenelim.
-                      {"\n"}
+                                            ÖNERİLER
+                                            {"\n"}
                                             {"\n"}
                                         </Text>
                                         <Text style={styles.line}>

@@ -16,7 +16,7 @@ export default function BottomTabNavigator({ navigation, route }) {
                 name="Home"
                 component={HomePage}
                 options={{
-                    title: '𝗔𝗡𝗔 𝗘𝗞𝗥𝗔𝗡'
+                    title: 'ANA EKRAN'
                 }}
             />
             <BottomTab.Screen
@@ -24,7 +24,7 @@ export default function BottomTabNavigator({ navigation, route }) {
                 name="Links"
                 component={QuestionListPage}
                 options={{
-                    title: '𝗧𝗘𝗦𝗧𝗟𝗘𝗥'
+                    title: 'TESTLER'
                 }}
             />
         </BottomTab.Navigator>

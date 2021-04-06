@@ -1,17 +1,16 @@
 import React, { Component } from "react";
-import { Platform, Text, StyleSheet } from 'react-native';
-import { Container, Tab, Tabs, ScrollableTab, Content, Card, CardItem, Body, Button, Toast, Spinner, View } from "native-base";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Text, StyleSheet } from 'react-native';
+import { Container, Tab, Tabs, ScrollableTab, Content, Card, CardItem, Body, Button, Toast } from "native-base";
 import { AdMobBanner, AdMobInterstitial } from 'expo-ads-admob';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
+import ReplaceJson from "../mixins/ReplaceJson";
 
 export class QuestionDetailPage extends Component {
     state = {
         totalTrue: 0,
         totalFalse: 0,
-        success: false,
-        currentPage: 0,
-        modalVisibility: false,
         questionList: Object.values(this.props.route.params.data)
     }
 
@@ -21,67 +20,73 @@ export class QuestionDetailPage extends Component {
             'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
             ...Ionicons.font,
         });
-        console.log('prop =>', this.props.route.params.data);
     }
 
-    chooseAnswer(question, answer, questionOrder, key2) {
+    async chooseAnswer(question, answer, questionOrder) {
         question.choosed = true;
-        const isTrueAnswer = Object.values(answer)[0];
-        var trueCount = isTrueAnswer ? this.state.totalTrue + 1 : this.state.totalTrue;
-        var falseCount = !isTrueAnswer ? this.state.totalFalse + 1 : this.state.totalFalse;
-        Object.values(answer)[0]
-            ? this.setState({ totalTrue: trueCount })
-            : this.setState({ totalFalse: falseCount });
+        const userChoose = await this.setUserChoose(answer);
 
-        if (questionOrder + 1 == this.state.questionList.length) {
-            const questionPoint = 100 / this.state.questionList.length;
-            const score = (trueCount * questionPoint) - (falseCount * 0.25);
+        const isLastQuestion = questionOrder + 1 == this.state.questionList.length;
+        if (isLastQuestion) {
             Toast.show({
-                text: `Doğru sayısı: ${trueCount}\nYanlış sayısı: ${falseCount}\nPuanınız: ${score}`,
+                text: `Doğru sayısı: ${userChoose.trueCount}\nYanlış sayısı: ${userChoose.falseCount}`,
                 duration: 60000,
                 buttonText: "Tamam",
-                type: score > 70 ? "success" : "danger",
+                type: "success",
                 onClose: () => {
                     if (this.state.questionList[0].choosed) {
                         this.state.questionList.forEach(question => question.choosed = false);
-                        if (Platform.OS == "android" || Platform.OS == "ios") {
-                            AdMobInterstitial.setAdUnitID('ca-app-pub-5292572003338215/4215998839').then(() => {
-                                AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true }).then(() => {
-                                    AdMobInterstitial.showAdAsync();
-                                    this.props.navigation.navigate('Links');
-                                });
-                            });
-                        } else {
-                            this.props.navigation.navigate('Links');
-                        }
+                        this.showFinishAd();
                     }
                 }
             })
         };
-
-        setTimeout(() => {
-            this.clearChoose();
-        }, 1000);
     }
 
-    clearChoose() {
-        this.setState({ light: true });
-        this.setState({ currentPage: this.state.currentPage + 1 });
+    async setUserChoose(answer) {
+        const isTrueAnswer = Object.values(answer)[0];
+        let trueCount = this.state.totalTrue;
+        let falseCount = this.state.totalFalse;
+        let storagedTrue = await AsyncStorage.getItem("trueTotal");
+        let storagedFalse = await AsyncStorage.getItem("falseTotal");
+
+        if (isTrueAnswer) {
+            trueCount = this.state.totalTrue + 1;
+            storagedTrue = storagedTrue ? parseInt(storagedTrue) : 0;
+            storagedTrue += 1;
+            AsyncStorage.setItem("trueTotal", JSON.stringify(storagedTrue));
+        } else {
+            falseCount = this.state.totalFalse + 1;
+            storagedFalse = storagedFalse ? parseInt(storagedFalse) : 0;
+            storagedFalse += 1;
+            AsyncStorage.setItem("falseTotal", JSON.stringify(storagedFalse));
+        }
+
+        Object.values(answer)[0]
+            ? this.setState({ totalTrue: trueCount })
+            : this.setState({ totalFalse: falseCount });
+
+        return { trueCount, falseCount };
     }
 
-    ShowModalFunction(visible) {
-        this.setState({ modalVisibility: visible });
+    showFinishAd() {
+        AdMobInterstitial.setAdUnitID('ca-app-pub-5292572003338215/4215998839').then(() => {
+            AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true }).then(() => {
+                AdMobInterstitial.showAdAsync();
+                this.props.navigation.navigate('Links');
+            });
+        });
     }
 
     render() {
         return (
             <Container>
                 <AdMobBanner
-                    bannerSize="fullBanner"
+                    bannerSize="ADAPTIVE_BANNER"
                     adUnitID="ca-app-pub-5292572003338215/3669203928"
                     servePersonalizedAds
                     onDidFailToReceiveAdWithError={this.bannerError} />
-                <Tabs initialPage={0} page={this.state.currentPage} onChangeTab={({ from, to }) => { this.setState({ currentPage: to }); }} renderTabBar={() => <ScrollableTab />}>
+                <Tabs initialPage={0} onChangeTab={({ from, to }) => { this.setState({ currentPage: to }); }} renderTabBar={() => <ScrollableTab />}>
                     {
                         this.state.questionList.map((question, index) =>
                             <Tab heading={`Soru ${index + 1}`}>
@@ -90,14 +95,14 @@ export class QuestionDetailPage extends Component {
                                         <Card>
                                             <CardItem key={`question-${index}`}>
                                                 <Body>
-                                                    <Text style={{ fontWeight: "bold" }}>{question.QuestionText.replace(/_/g, ".")}</Text>
+                                                    <Text style={{ fontWeight: "bold" }}>{ReplaceJson.replace(question.QuestionText)}</Text>
                                                 </Body>
                                             </CardItem>
                                         </Card>
                                         {
                                             Object.values(question.Answers).map((answer, key2) =>
-                                                <Button style={!question.choosed ? styles.buttonStyle : styles.justMargin} full danger={question.choosed && !Object.values(answer)[0]} success={question.choosed && Object.values(answer)[0]} onPress={() => this.chooseAnswer(question, answer, index, key2)}>
-                                                    <Text>{Object.keys(question.Answers)[key2]}- {Object.keys(answer)}</Text>
+                                                <Button style={!question.choosed ? styles.buttonStyle : styles.justMargin} full danger={question.choosed && !Object.values(answer)[0]} success={question.choosed && Object.values(answer)[0]} onPress={() => this.chooseAnswer(question, answer, index)}>
+                                                    <Text style={styles.answerPadding}>{Object.keys(question.Answers)[key2]}- {ReplaceJson.replace(Object.keys(answer)[0])}</Text>
                                                 </Button>
                                             )
                                         }
@@ -119,6 +124,9 @@ const styles = StyleSheet.create({
     },
     justMargin: {
         marginBottom: 6
+    },
+    answerPadding: {
+        padding: 20
     }
 });
 
