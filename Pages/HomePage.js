@@ -1,84 +1,27 @@
 import React, { Component } from "react";
-import { Container, Content, Card, CardItem, Text, Body, List, ListItem, Left, Right, Badge } from "native-base";
+import { Container, Content, Card, CardItem, Text, Body } from "native-base";
 import { StyleSheet } from 'react-native';
 import { Row, Grid } from "react-native-easy-grid";
-import ToastMessage from '../mixins/ToastMessage';
 import { AdMobBanner } from 'expo-ads-admob';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export class HomePage extends Component {
-    state = {
-        trueCount: 0,
-        falseCount: 0
-    }
-
-    async componentDidMount() {
-        ToastMessage.clearToastSquare();
-        await this.getAnswerCount();
-        await this.AnswerCountInterval();
-    }
-
-    async getAnswerCount() {
-        let storagedTrue = await AsyncStorage.getItem("trueTotal");
-        let storagedFalse = await AsyncStorage.getItem("falseTotal");
-
-        if (storagedTrue || storagedFalse) {
-            this.setState({ trueCount: parseInt(storagedTrue) || 0 });
-            this.setState({ falseCount: parseInt(storagedFalse) || 0 });
-        }
-    }
-
-    async AnswerCountInterval() {
-        setTimeout(() => {
-            setInterval(() => {
-                this.getAnswerCount();
-            }, 10000)
-        }, 25000);
-    }
-
     render() {
         return (
             <Container>
                 <AdMobBanner
-                    bannerSize="ADAPTIVE_BANNER"
+                    bannerSize="smartBannerPortrait"
                     adUnitID="ca-app-pub-5292572003338215/9564883651"
                     servePersonalizedAds
-                    onDidFailToReceiveAdWithError={this.bannerError} />
+                    onDidFailToReceiveAdWithError={this.bannerError}
+                    style />
                 <Grid>
                     <Row>
                         <Content>
-                            <List>
-                                <ListItem>
-                                    <Left iconRight light>
-                                        <Text>Toplam Doğru Cevap Sayınız:</Text>
-                                    </Left>
-                                    <Right>
-                                        <Badge success>
-                                            <Text>{this.state.trueCount}</Text>
-                                        </Badge>
-                                    </Right>
-                                </ListItem>
-                                <ListItem>
-                                    <Left iconRight light>
-                                        <Text>Toplam Yanlış Cevap Sayınız:</Text>
-                                    </Left>
-                                    <Right>
-                                        <Badge danger>
-                                            <Text>{this.state.falseCount}</Text>
-                                        </Badge>
-                                    </Right>
-                                </ListItem>
-                            </List>
                             <Card>
-                                <CardItem bordered>
+                                <CardItem header bordered>
                                     <Body>
                                         <Text style={styles.line}>
-                                            ÖNERİLER
-                                            {"\n"}
-                                            {"\n"}
-                                        </Text>
-                                        <Text style={styles.line}>
-                                            1- Test Çözme Becerinizi Arttırın: Bir konuyla ilgili
+                                            Test Çözme Becerinizi Arttırın: Bir konuyla ilgili
                                             soruları çözmeden önce o konuyu iyi öğrenmelisiniz. Soru
                                             çözerek de öğrenip öğrenmediğinizi kontrol etmiş
                                             olursunuz. Amaç KPSS’de başarılı olmak ise KPSS niteliğine
@@ -92,11 +35,13 @@ export class HomePage extends Component {
                                             yer alan önemli kelimelerin altını çizin. Her gün belirli
                                             miktarda soru çözmeye çalışın. Soru çözmek sizde bir
                                             alışkanlık olsun.
-                      {"\n"}
-                                            {"\n"}
                                         </Text>
+                                    </Body>
+                                </CardItem>
+                                <CardItem header bordered>
+                                    <Body>
                                         <Text style={styles.line}>
-                                            2- Soru Çözün Hergün en az iki test çözün.(60 soru) Bu
+                                            Soru Çözün Hergün en az iki test çözün.(60 soru) Bu
                                             çalışmanın amacı da bilgileri taze tutmak ve tekrar
                                             yapabilmektir. Cevaplarınızı kitabın üstüne işaretleyin.
                                             Yanlış yaptığınız sorular ve yapamadığınız sorular için
@@ -121,19 +66,23 @@ export class HomePage extends Component {
                                             iyi yaptığınız soruları çözerek hem moralinizi hem de
                                             isteğinizi arttırın. Bu sayede diğer sorularla uğraşırken
                                             daha zinde olursunuz.
-                      {"\n"}
-                                            {"\n"}
                                         </Text>
+                                    </Body>
+                                </CardItem>
+                                <CardItem header bordered>
+                                    <Body>
                                         <Text style={styles.line}>
-                                            3- Ders Atlamayın! Matematiksiz de yaparım!, Coğrafyadan
+                                            Ders Atlamayın! Matematiksiz de yaparım!, Coğrafyadan
                                             anlamıyorum. Anayasa çok karışık söylemlerinden vazgeçin.
                                             KPSS’den yüksek puan almak istiyorsanız, hepsine
                                             çalışmalı, eksiklerimizi kesinlikle tamamlamalıyız!
-                      {"\n"}
-                                            {"\n"}
                                         </Text>
+                                    </Body>
+                                </CardItem>
+                                <CardItem header bordered>
+                                    <Body>
                                         <Text style={styles.line}>
-                                            4- Konuları Anlayarak Çalışın! KPSS’den yüksek not almanın
+                                            Konuları Anlayarak Çalışın! KPSS’den yüksek not almanın
                                             temel yolu, bilgiyi akılda tutmaktır. Bilgiyi akılda
                                             tutmanın en temel yolu ise onu tekrarlamaktır.
                                             Tekrarlamanın en kolay yolu da özet çıkarmaktır. Ne
@@ -145,7 +94,7 @@ export class HomePage extends Component {
                                             dönmek olmaz! Benjamin Franklin’in dediği gibi; "Yapmak
                                             istediğin her şeyi düşünerek karar ver, verdiğin kararı da
                                             mutlaka gerçekleştir.’’
-                    </Text>
+                                        </Text>
                                     </Body>
                                 </CardItem>
                             </Card>

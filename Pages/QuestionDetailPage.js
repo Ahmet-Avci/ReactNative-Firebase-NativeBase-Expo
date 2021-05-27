@@ -29,7 +29,7 @@ export class QuestionDetailPage extends Component {
         const isLastQuestion = questionOrder + 1 == this.state.questionList.length;
         if (isLastQuestion) {
             Toast.show({
-                text: `Doğru sayısı: ${userChoose.trueCount}\nYanlış sayısı: ${userChoose.falseCount}`,
+                text: `Doğru sayısı: ${userChoose.trueCount}\nYanlış sayısı: ${userChoose.falseCount}\n\nsize daha iyi hizmet sunabilmek adına reklam kullanmak zorundayız. :(`,
                 duration: 60000,
                 buttonText: "Tamam",
                 type: "success",
@@ -47,19 +47,19 @@ export class QuestionDetailPage extends Component {
         const isTrueAnswer = Object.values(answer)[0];
         let trueCount = this.state.totalTrue;
         let falseCount = this.state.totalFalse;
-        let storagedTrue = await AsyncStorage.getItem("trueTotal");
-        let storagedFalse = await AsyncStorage.getItem("falseTotal");
+        let storagedTrue = await AsyncStorage.getItem(`${this.props.route.params.header}trueTotal`);
+        let storagedFalse = await AsyncStorage.getItem(`${this.props.route.params.header}falseTotal`);
 
         if (isTrueAnswer) {
             trueCount = this.state.totalTrue + 1;
             storagedTrue = storagedTrue ? parseInt(storagedTrue) : 0;
             storagedTrue += 1;
-            AsyncStorage.setItem("trueTotal", JSON.stringify(storagedTrue));
+            AsyncStorage.setItem(`${this.props.route.params.header}trueTotal`, JSON.stringify(storagedTrue));
         } else {
             falseCount = this.state.totalFalse + 1;
             storagedFalse = storagedFalse ? parseInt(storagedFalse) : 0;
             storagedFalse += 1;
-            AsyncStorage.setItem("falseTotal", JSON.stringify(storagedFalse));
+            AsyncStorage.setItem(`${this.props.route.params.header}falseTotal`, JSON.stringify(storagedFalse));
         }
 
         Object.values(answer)[0]
@@ -82,14 +82,14 @@ export class QuestionDetailPage extends Component {
         return (
             <Container>
                 <AdMobBanner
-                    bannerSize="ADAPTIVE_BANNER"
+                    bannerSize="smartBannerPortrait"
                     adUnitID="ca-app-pub-5292572003338215/3669203928"
                     servePersonalizedAds
                     onDidFailToReceiveAdWithError={this.bannerError} />
                 <Tabs initialPage={0} onChangeTab={({ from, to }) => { this.setState({ currentPage: to }); }} renderTabBar={() => <ScrollableTab />}>
                     {
                         this.state.questionList.map((question, index) =>
-                            <Tab heading={`Soru ${index + 1}`}>
+                            <Tab heading={`(${index + 1})`}>
                                 <Container>
                                     <Content>
                                         <Card>

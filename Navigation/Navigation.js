@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HomePage, QuestionListPage } from '../Pages/index';
+import { Ionicons } from '@expo/vector-icons';
+import { HomePage, QuestionListPage, StatusPage } from '../Pages/index';
 const BottomTab = createBottomTabNavigator();
-const INITIAL_ROUTE_NAME = 'Home';
+const INITIAL_ROUTE_NAME = 'Links';
 
 export default function BottomTabNavigator({ navigation, route }) {
 
@@ -13,18 +14,29 @@ export default function BottomTabNavigator({ navigation, route }) {
         <BottomTab.Navigator initialRouteName={INITIAL_ROUTE_NAME}>
             <BottomTab.Screen
                 style={styles.bottom}
-                name="Home"
-                component={HomePage}
+                name="Links"
+                component={QuestionListPage}
                 options={{
-                    title: 'ANA EKRAN'
+                    title: 'TESTLER',
+                    tabBarIcon: () => <Ionicons name="ios-flask" size={32} color="#6fa8fc" />
                 }}
             />
             <BottomTab.Screen
                 style={styles.bottom}
-                name="Links"
-                component={QuestionListPage}
+                name="Status"
+                component={StatusPage}
                 options={{
-                    title: 'TESTLER'
+                    title: 'DURUM',
+                    tabBarIcon: () => <Ionicons name="ios-person" size={32} color="#6fa8fc" />
+                }}
+            />
+            <BottomTab.Screen
+                style={styles.bottom}
+                name="Home"
+                component={HomePage}
+                options={{
+                    title: 'MOTİVASYON',
+                    tabBarIcon: () => <Ionicons name="ios-happy" size={32} color="#6fa8fc" />
                 }}
             />
         </BottomTab.Navigator>
@@ -45,7 +57,6 @@ function getHeaderTitle(route) {
 const styles = StyleSheet.create({
     bottom: {
         fontWeight: "bold",
-        fontSize: 20,
-        color: "#1c1c1e"
+        padding: 15
     }
 });
