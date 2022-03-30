@@ -36,8 +36,8 @@ export default function App(props) {
             <NavigationContainer ref={containerRef} initialState={initialNavigationState}>
                 <Root>
                     <Stack.Navigator>
-                        <Stack.Screen name="Root" component={BottomTabNavigator} />
-                        <Stack.Screen name="Detail" component={QuestionDetailPage} />
+                        <Stack.Screen name="Detay" component={BottomTabNavigator} />
+                        <Stack.Screen name="Sınav" component={QuestionDetailPage} />
                     </Stack.Navigator>
                 </Root>
             </NavigationContainer>

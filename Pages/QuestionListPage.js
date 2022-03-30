@@ -15,12 +15,13 @@ export class QuestionListPage extends Component {
 
     async componentDidMount() {
         ToastMessage.clearToastSquare();
-        const oneWeekTime = 7 * 24 * 60 * 60 * 1000;
+        const oneWeekTime = 36000000 * 7;
 
         try {
             const storedDate = await AsyncStorage.getItem('questionsStoredDate')
             const storedQuestions = await AsyncStorage.getItem("questions");
-            if (!storedDate || !storedQuestions || JSON.parse(storedDate) + oneWeekTime <= new Date().getTime()) {
+
+            if (!storedDate || !storedQuestions || (storedDate && (JSON.parse(storedDate) + oneWeekTime) < new Date().getTime())) {
                 this.getFirebaseData();
             } else {
                 this.setState({ allQuestions: JSON.parse(await AsyncStorage.getItem("questions")) });
@@ -56,13 +57,13 @@ export class QuestionListPage extends Component {
                             {
                                 this.state.allQuestions
                                     ? <List>
-                                        <ListItem key="first" itemDivider selected>
+                                        <ListItem key="guncel" itemDivider selected>
                                             <Ionicons name="ios-calendar" size={28} color="#6fa8fc" />
                                             <Text style={{ fontWeight: "bold" }}> - Güncel Bilgiler</Text>
                                         </ListItem>
                                         {
                                             Object.keys(this.state.allQuestions.Guncel).map((x, i) =>
-                                                <ListItem key={`first-${x}`} onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Guncel)[i], header: "Guncel" })}>
+                                                <ListItem key={`guncel-${i}`} onPress={() => this.props.navigation.navigate('Sınav', { data: Object.values(this.state.allQuestions.Guncel)[i], header: "Guncel" })}>
                                                     <Left iconRight light>
                                                         <Text>{x}</Text>
                                                     </Left>
@@ -72,13 +73,13 @@ export class QuestionListPage extends Component {
                                                 </ListItem>
                                             )
                                         }
-                                        <ListItem key="second" itemDivider selected>
+                                        <ListItem key="turkce" itemDivider selected>
                                             <Ionicons name="ios-book" size={28} color="#6fa8fc" />
                                             <Text style={{ fontWeight: "bold" }}> - Türkçe</Text>
                                         </ListItem>
                                         {
                                             Object.keys(this.state.allQuestions.Turkce).map((x, i) =>
-                                                <ListItem key={`second-${x}`} onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Turkce)[i], header: "Turkce" })}>
+                                                <ListItem key={`turkce-${i}`} onPress={() => this.props.navigation.navigate('Sınav', { data: Object.values(this.state.allQuestions.Turkce)[i], header: "Turkce" })}>
                                                     <Left>
                                                         <Text>{x}</Text>
                                                     </Left>
@@ -88,13 +89,13 @@ export class QuestionListPage extends Component {
                                                 </ListItem>
                                             )
                                         }
-                                        <ListItem key="third" itemDivider selected>
+                                        <ListItem key="matematik" itemDivider selected>
                                             <Ionicons name="ios-calculator" size={28} color="#6fa8fc" />
                                             <Text style={{ fontWeight: "bold" }}> - Matematik</Text>
                                         </ListItem>
                                         {
                                             Object.keys(this.state.allQuestions.Matematik).map((x, i) =>
-                                                <ListItem key={`third-${x}`} onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Matematik)[i], header: "Matematik" })}>
+                                                <ListItem key={`matematik-${i}`} onPress={() => this.props.navigation.navigate('Sınav', { data: Object.values(this.state.allQuestions.Matematik)[i], header: "Matematik" })}>
                                                     <Left>
                                                         <Text>{x}</Text>
                                                     </Left>
@@ -104,13 +105,13 @@ export class QuestionListPage extends Component {
                                                 </ListItem>
                                             )
                                         }
-                                        <ListItem key="quad" itemDivider selected>
+                                        <ListItem key="tarih" itemDivider selected>
                                             <Ionicons name="ios-paper" size={28} color="#6fa8fc" />
                                             <Text style={{ fontWeight: "bold" }}> - Tarih</Text>
                                         </ListItem>
                                         {
                                             Object.keys(this.state.allQuestions.Tarih).map((x, i) =>
-                                                <ListItem key={`quad-${x}`} onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Tarih)[i], header: "Tarih" })}>
+                                                <ListItem key={`tarih-${i}`} onPress={() => this.props.navigation.navigate('Sınav', { data: Object.values(this.state.allQuestions.Tarih)[i], header: "Tarih" })}>
                                                     <Left>
                                                         <Text>{x}</Text>
                                                     </Left>
@@ -120,13 +121,13 @@ export class QuestionListPage extends Component {
                                                 </ListItem>
                                             )
                                         }
-                                        <ListItem key="penta" itemDivider selected>
+                                        <ListItem key="cografya" itemDivider selected>
                                             <Ionicons name="ios-globe" size={28} color="#6fa8fc" />
                                             <Text style={{ fontWeight: "bold" }}> - Coğrafya</Text>
                                         </ListItem>
                                         {
                                             Object.keys(this.state.allQuestions.Cografya).map((x, i) =>
-                                                <ListItem key={`quad-${x}`} onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Cografya)[i], header: "Cografya" })}>
+                                                <ListItem key={`cografya-${i}`} onPress={() => this.props.navigation.navigate('Sınav', { data: Object.values(this.state.allQuestions.Cografya)[i], header: "Cografya" })}>
                                                     <Left>
                                                         <Text>{x}</Text>
                                                     </Left>
@@ -136,13 +137,13 @@ export class QuestionListPage extends Component {
                                                 </ListItem>
                                             )
                                         }
-                                        <ListItem key="six" itemDivider selected>
+                                        <ListItem key="vatandaslik" itemDivider selected>
                                             <Ionicons name="ios-people" size={28} color="#6fa8fc" />
                                             <Text style={{ fontWeight: "bold" }}> - Vatandaşlık</Text>
                                         </ListItem>
                                         {
                                             Object.keys(this.state.allQuestions.Vatandaslik).map((x, i) =>
-                                                <ListItem key={`quad-${x}`} onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.Vatandaslik)[i], header: "Vatandaslik" })}>
+                                                <ListItem key={`vatandaslik-${i}`} onPress={() => this.props.navigation.navigate('Sınav', { data: Object.values(this.state.allQuestions.Vatandaslik)[i], header: "Vatandaslik" })}>
                                                     <Left>
                                                         <Text>{x}</Text>
                                                     </Left>
@@ -152,13 +153,13 @@ export class QuestionListPage extends Component {
                                                 </ListItem>
                                             )
                                         }
-                                        <ListItem key="eight" itemDivider selected>
+                                        <ListItem key="egitim" itemDivider selected>
                                             <Ionicons name="ios-school" size={28} color="#6fa8fc" />
                                             <Text style={{ fontWeight: "bold" }}> - Eğitim Bilimleri</Text>
                                         </ListItem>
                                         {
                                             Object.keys(this.state.allQuestions.EgitimBilimi).map((x, i) =>
-                                                <ListItem key={`quad-${x}`} onPress={() => this.props.navigation.navigate('Detail', { data: Object.values(this.state.allQuestions.EgitimBilimi)[i], header: "Egitim" })}>
+                                                <ListItem key={`egitim-${i}`} onPress={() => this.props.navigation.navigate('Sınav', { data: Object.values(this.state.allQuestions.EgitimBilimi)[i], header: "Egitim" })}>
                                                     <Left>
                                                         <Text>{x}</Text>
                                                     </Left>
