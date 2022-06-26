@@ -1,11 +1,10 @@
 {
   "expo": {
-    "name": "Kpss Çıkmış Sorular Soru Bankası",
-    "description": "Kpss çıkmış soruları ve cevaplar ve sorun bankası içerikleriyle, kendini deneme testlerinizi yapabileceğiniz bir sınava çalışma uygulaması.",
+    "name": "Kpss Sınavı Çıkmış Sorular Soru Bankası",
+    "description": "Kpss sınavı çıkmış sorular soru ve cevaplar ve soru bankası içerikleriyle, kendini deneme, değerlendirme ve testlerinizi yapabileceğiniz sınava çalışma uygulaması.",
     "icon": "./assets/kpss.png",
     "slug": "kpsss-cikmis-sorular-soru-bankasi",
     "privacy": "public",
-    "sdkVersion": "44.0.0",
     "scheme": "kpsssorucevap",
     "platforms": [
       "ios",
@@ -13,30 +12,33 @@
       "web"
     ],
     "android": {
-        "package": "kpss.cikmis.sorular.soru.bankasi",
-        "config": {
-          "googleMobileAdsAppId": "ca-app-pub-5292572003338215~9332594143"
-        },
-        "versionCode": 3
+      "package": "kpss.cikmis.sorular.soru.bankasi",
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-5292572003338215~9332594143"
+      },
+      "versionCode": 7,
+      "permissions" : []
     },
     "ios": {
-    "supportsTablet": true,
+      "supportsTablet": true,
       "bundleIdentifier": "kpss.cikmis.sorular.soru.bankasi",
-      "buildNumber": "3.0.0"
+      "buildNumber": "7.0.0"
     },
     "web": {
       "build": {
         "babel": {
-          "include": ["@codler/react-native-keyboard-aware-scroll-view"]
+          "include": [
+            "@codler/react-native-keyboard-aware-scroll-view"
+          ]
         }
       }
     },
-    "version": "3.0.0",
+    "version": "7.0.0",
     "orientation": "portrait",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#fce7c1"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
